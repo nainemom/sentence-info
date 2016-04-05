@@ -11,6 +11,7 @@
 			margin: 0 auto;
 			font-family: tahoma;
 			font-size: .9em;
+			margin-bottom: 70px;
 		}
 		h2{
 			text-align: right;
@@ -20,17 +21,18 @@
 			width: 100%;
 			resize-x: none;
 			min-height: 100px;
-			font-size: 15px;
-			padding: 15px;
+			font-size: 12px;
+			padding: 6px;
 		}
 		#textarea:focus{
 			outline: none;
 		}
 		.info > div{
 			color: #C0392B;
-			font-size: 17px;
+			font-size: 12px;
 			font-weight: bold;
 			padding: 15px;
+			min-height: 50px;
 		}
 		footer{
 			position: fixed;
@@ -38,7 +40,7 @@
 			left: 0;
 			bottom: 0;
 			padding: 10px;
-			background: rgba(0,0,0,.2);
+			background: rgba(255,255,255,.5);
 		}
 	</style>
 </head>
@@ -50,220 +52,82 @@
 	<p> امکانات فعلی: </p>
 	<ul>
 		<li> حروف غایب </li>
+		<li> حروف استفاده شده </li>
 		<li> تعداد کاراکترها </li>
-		<li> تعداد حروف (به زودی) </li>
-		<li> تعداد نقطه‌ها (به زودی) </li>
+		<li> تعداد کلمه‌ها </li>
+		<li> تعداد نقطه‌ها </li>
 	</ul>
-	<textarea id="textarea" placeholder="جمله خود را وارد کنید"></textarea>
+	<br>
 	
+	<textarea id="textarea" placeholder="جمله خود را وارد کنید"></textarea>
 	<div class="info">حروف غایب:
 	<div id="missed-letters"></div>
+	</div>
+	<div class="info"> حروف غایب در صورت برابری ـص و ص یا صـ و ـصـ
+	<div id="missed-letters-gliph"></div>
+	</div>
+	
+	<div class="info">حروف استفاده شده:
+	<div id="used-letters"></div>
 	</div>
 	
 	<div class="info">تعداد کاراکترها:
 	<div id="length"></div>
 	</div>
+	
+	<div class="info">تعداد کلمه‌ها
+	<div id="words-length"></div>
+	</div>
+	<div class="info">تعداد نقطه‌ها
+	<div id="dots-length"></div>
+	</div>
 
 	<footer>
 		ایجاد شده توسط امیر مومنیان: <a href="https://twitter.com/nainemom">توییتر</a>، <a href="https://github.com/nainemom/sentence-info">گیت‌هاب</a>، <a href="http://morde.ir">وبلاگ</a>
 	</footer>
+	
+	<script src="sentence-info.js"></script>
 	<script>
 		var textarea = document.getElementById('textarea');
 		var missedLettersElem = document.getElementById('missed-letters');
 		var lengthElem = document.getElementById('length');
+
 		
-		var allLetters = "ضضصصثثققففغغععههههخخححججچچششسسییببللاآتتننممککگگظطژزرذدپپو".split('');
-		var allLettersWithTypes = [
-			{type: 'middle', letter: "ض"},
-			{type: 'single', letter: "ض"},
-			{type: 'middle', letter: "ص"},
-			{type: 'single', letter: "ص"},
-			{type: 'middle', letter: "ث"},
-			{type: 'single', letter: "ث"},
-			{type: 'middle', letter: "ق"},
-			{type: 'single', letter: "ق"},
-			{type: 'middle', letter: "ف"},
-			{type: 'single', letter: "ف"},
-			{type: 'middle', letter: "غ"},
-			{type: 'single', letter: "غ"},
-			{type: 'middle', letter: "ع"},
-			{type: 'single', letter: "ع"},
-			{type: 'middle', letter: "ه"},
-			{type: 'single', letter: "ه"},
-			{type: 'start', letter: "ه"},
-			{type: 'end', letter: "ه"},
-			{type: 'middle', letter: "خ"},
-			{type: 'single', letter: "خ"},
-			{type: 'middle', letter: "ح"},
-			{type: 'single', letter: "ح"},
-			{type: 'middle', letter: "ج"},
-			{type: 'single', letter: "ج"},
-			{type: 'middle', letter: "چ"},
-			{type: 'single', letter: "چ"},
-			{type: 'middle', letter: "ش"},
-			{type: 'single', letter: "ش"},
-			{type: 'middle', letter: "س"},
-			{type: 'single', letter: "س"},
-			{type: 'middle', letter: "ی"},
-			{type: 'single', letter: "ی"},
-			{type: 'middle', letter: "ب"},
-			{type: 'single', letter: "ب"},
-			{type: 'middle', letter: "ل"},
-			{type: 'single', letter: "ل"},
-			{type: 'single', letter: "ا"},
-			{type: 'single', letter: "آ"},
-			{type: 'middle', letter: "ت"},
-			{type: 'single', letter: "ت"},
-			{type: 'middle', letter: "ن"},
-			{type: 'single', letter: "ن"},
-			{type: 'middle', letter: "م"},
-			{type: 'single', letter: "م"},
-			{type: 'middle', letter: "ک"},
-			{type: 'single', letter: "ک"},
-			{type: 'middle', letter: "گ"},
-			{type: 'single', letter: "گ"},
-			{type: 'single', letter: "ظ"},
-			{type: 'single', letter: "ط"},
-			{type: 'single', letter: "ژ"},
-			{type: 'single', letter: "ز"},
-			{type: 'single', letter: "ر"},
-			{type: 'single', letter: "ذ"},
-			{type: 'single', letter: "د"},
-			{type: 'middle', letter: "پ"},
-			{type: 'single', letter: "پ"},
-			{type: 'single', letter: "و"}
-		];
-		function letterTypeAvailable( letter, type ){
-			for( var i = 0; i < allLettersWithTypes.length; i++ )
-				if( allLettersWithTypes[i].letter == letter && allLettersWithTypes[i].type == type )
-					return true;
-			return false;
-		}
-		
-		
-		function missedLetters(str){
-			
-			var ret = [];
-			var i,j,k;
-			var allLetters_ = clone(allLettersWithTypes);
-			//for(i = 0; i < allLetters_.length; i++)
-			//	allLetters_[i] = {letter:allLetters_[i], used: false}
-			
-			
-			for( i = 0; i < str.length; i++ )
-				for(j = 0; j < allLetters_.length; j++)
-					if( str[i] == allLetters_[j].letter && letterInSentence(str, i) ==  allLetters_[j].type ){
-						allLetters_[j].used = true;
-						break;
-					}
-			
-			for(j = 0; j < allLetters_.length; j++)
-				if( typeof allLetters_[j].used == 'undefined' )
-					ret.push( allLetters_[j] );
-			return ret;
-		}
-		function letterInSentence(sentence, letterIndex){
-			var ret;
-			// single start end space middle
-			if( sentence.length == 0 )
-				ret = '';
-			else if( letterIndex == sentence.length - 1 )
-				ret =  'single';
-			else if( sentence[letterIndex] == ' ' )
-				ret =  'space';
-			else if( letterIndex == 0 ){
-				if( sentence[letterIndex+1] == ' ' )
-					ret =  'single';
-				else{
-					if( sentence[letterIndex] == 'ه' )
-						ret =  'start';
-					else
-						ret = 'middle';
-				}
-					
-			}
-			else if( letterIndex == sentence.length - 1 ){
-				if( sentence[letterIndex-1] == ' ' )
-					ret =  'single';
-				else{
-					if( sentence[letterIndex] == 'ه' )
-						ret =  'end';
-					else
-						ret = 'single'
-				}	
-			}
-			else{
-				if( sentence[letterIndex+1] == ' ' && sentence[letterIndex-1] == ' ' )
-					ret =  'single';
-				else if ( sentence[letterIndex+1] == ' ' )
-					if( sentence[letterIndex] == 'ه' )
-						ret =  'end';
-					else
-						ret = 'single'
-				else if( sentence[letterIndex-1] == ' ' )
-					if( sentence[letterIndex] == 'ه' )
-						ret =  'start';
-					else
-						ret = 'middle'
-				else
-					ret =  'middle'
-			}
-			if( letterTypeAvailable( sentence[letterIndex], ret ) )
-				return ret;
-			return 'single';
-		}
-		
-
-
-		function clone(obj) {
-			var copy;
-
-			// Handle the 3 simple types, and null or undefined
-			if (null == obj || "object" != typeof obj) return obj;
-
-			// Handle Date
-			if (obj instanceof Date) {
-				copy = new Date();
-				copy.setTime(obj.getTime());
-				return copy;
-			}
-
-			// Handle Array
-			if (obj instanceof Array) {
-				copy = [];
-				for (var i = 0, len = obj.length; i < len; i++) {
-					copy[i] = clone(obj[i]);
-				}
-				return copy;
-			}
-
-			// Handle Object
-			if (obj instanceof Object) {
-				copy = {};
-				for (var attr in obj) {
-					if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-				}
-				return copy;
-			}
-
-			throw new Error("Unable to copy obj! Its type isn't supported.");
-		}
-
-
-
+/*		var sentence = new Sentence(textarea.value);
 		textarea.onkeyup = function(){
-			var i,j;
-			var sentence = textarea.value;
-			var missed = missedLetters(textarea.value);
-			missedLettersElem.innerHTML = '';
-			for( i = 0; i < missed.length; i++ ){
-				missedLettersElem.innerHTML+= (missed[i].type == 'middle' || missed[i].type == 'end'? 'ـ': '') + missed[i].letter +  (missed[i].type == 'middle' || missed[i].type == 'start'? 'ـ': '') + ' ';
-			}
+			sentence.val( textarea.value );
 			
-			lengthElem.innerHTML = sentence.length;
-
+			lengthElem.innerHTML = sentence.len();
+			missedLettersElem.innerHTML = sentence.missedLetters(true);
+			
+			//var i,j;
+			//var sentence = textarea.value;
+			//var missed = missedLetters(textarea.value);
+			//missedLettersElem.innerHTML = '';
+			//for( i = 0; i < missed.length; i++ ){
+			//	missedLettersElem.innerHTML+= (missed[i].type == 'middle' || missed[i].type == 'end'? 'ـ': '') + missed[i].letter +  (missed[i].type == 'middle' || missed[i].type == 'start'? 'ـ': '') + ' ';
+			//}
+			
+			//lengthElem.innerHTML = sentence.length;
+			
 		};
+		textarea.onkeyup(); */
+		
+		var sentence = new NaiSentence();
+		
+		sentence.val = textarea.value;
+		textarea.onkeyup = function(){
+			sentence.val = textarea.value;
+			
+			document.getElementById('missed-letters').innerHTML = sentence.missedLetters().join(' ');
+			document.getElementById('missed-letters-gliph').innerHTML = sentence.missedLetters(true,true).join(' ');
+			document.getElementById('used-letters').innerHTML = sentence.usedLetters().join(' ');
+			document.getElementById('length').innerHTML = sentence.val.length;
+			document.getElementById('words-length').innerHTML = sentence.wordsLength();
+			document.getElementById('dots-length').innerHTML = sentence.dotsLength();
+		}
 		textarea.onkeyup();
+
 	</script>
 </body>
 </html>
