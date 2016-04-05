@@ -63,8 +63,11 @@
 	<div class="info">حروف غایب:
 	<div id="missed-letters"></div>
 	</div>
-	<div class="info"> حروف غایب در صورت برابری ـص و ص یا صـ و ـصـ
+	<div class="info"> حروف غایب در صورت تفاوت ص و ـص و ـصـ و صـ
 	<div id="missed-letters-gliph"></div>
+	</div>
+	<div class="info"> حروف غایب در صورت برابری ـص و ص یا صـ و ـصـ
+	<div id="missed-letters-gliph2"></div>
 	</div>
 	
 	<div class="info">حروف استفاده شده:
@@ -120,7 +123,8 @@
 			sentence.val = textarea.value;
 			
 			document.getElementById('missed-letters').innerHTML = sentence.missedLetters().join(' ');
-			document.getElementById('missed-letters-gliph').innerHTML = sentence.missedLetters(true,true).join(' ');
+			document.getElementById('missed-letters-gliph').innerHTML = sentence.missedLetters(true).join(' ');
+			document.getElementById('missed-letters-gliph2').innerHTML = sentence.missedLetters(true, true,true).join(' ');
 			document.getElementById('used-letters').innerHTML = sentence.usedLetters().join(' ');
 			document.getElementById('length').innerHTML = sentence.val.length;
 			document.getElementById('words-length').innerHTML = sentence.wordsLength();

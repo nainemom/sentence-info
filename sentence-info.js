@@ -76,7 +76,8 @@ function NaiSentence( val ){
 		return ret;
 	}
 
-	self.missedLetters = function(bothOrNext/* no difference between both and next */, prevOrNone/* no difference between prev and none */){
+	self.missedLetters = function(letterTypes, bothOrNext/* no difference between both and next */, prevOrNone/* no difference between prev and none */){
+		if( typeof letterTypes == 'undefined' ) letterTypes = false;
 		if( typeof bothOrNext == 'undefined' ) bothOrNext = false;
 		if( typeof prevOrNone == 'undefined' ) prevOrNone = false;
 		var ret = [];
@@ -85,11 +86,12 @@ function NaiSentence( val ){
 		var used = self.usedLetters();
 		for( i = 0; i < self.letters.length; i++ ){
 			t = self.letters[i];
-			if( t.letter.indexOf(' ') > -1 ) continue;
-			if( t.connectToNext && used.indexOf(t.letter+'ـ') == -1 ) ret.push( t.letter+'ـ' );
-			if( !prevOrNone && t.connectToPrev && used.indexOf('ـ'+t.letter) == -1 ) ret.push( 'ـ'+t.letter );
-			if( !bothOrNext && t.connectToNext && t.connectToPrev && used.indexOf('ـ'+t.letter+'ـ') == -1 ) ret.push( 'ـ'+t.letter+'ـ' );
-			if( used.indexOf(t.letter) == -1 ) ret.push( t.letter );			
+			if( t.letter.indexOf(' ') != -1 ) continue;
+			if( letterTypes && t.connectToNext && used.indexOf(t.letter+'ـ') == -1 ) ret.push( t.letter+'ـ' );
+			if( letterTypes && !prevOrNone && t.connectToPrev && used.indexOf('ـ'+t.letter) == -1 ) ret.push( 'ـ'+t.letter );
+			if( letterTypes && !bothOrNext && t.connectToNext && t.connectToPrev && used.indexOf('ـ'+t.letter+'ـ') == -1 ) ret.push( 'ـ'+t.letter+'ـ' );
+			if( letterTypes && used.indexOf(t.letter) == -1 ) ret.push( t.letter );
+			if( !letterTypes && used.indexOf(t.letter+'ـ') == -1 && used.indexOf('ـ'+t.letter) == -1 && used.indexOf('ـ'+t.letter+'ـ') == -1 && used.indexOf(t.letter) == -1 ) ret.push( t.letter );
 		}
 		return ret;
 	}
