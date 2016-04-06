@@ -55,6 +55,7 @@
 		<li> حروف استفاده شده </li>
 		<li> تعداد کاراکترها </li>
 		<li> تعداد کلمه‌ها </li>
+		<li> تعداد حروف </li>
 		<li> تعداد نقطه‌ها </li>
 	</ul>
 	<br>
@@ -80,6 +81,9 @@
 	
 	<div class="info">تعداد کلمه‌ها
 	<div id="words-length"></div>
+	</div>
+	<div class="info">تعداد حروف
+	<div id="letters-length"></div>
 	</div>
 	<div class="info">تعداد نقطه‌ها
 	<div id="dots-length"></div>
@@ -126,7 +130,8 @@
 			document.getElementById('missed-letters-gliph').innerHTML = sentence.missedLetters(true).join(' ');
 			document.getElementById('missed-letters-gliph2').innerHTML = sentence.missedLetters(true, true,true).join(' ');
 			document.getElementById('used-letters').innerHTML = sentence.usedLetters().join(' ');
-			document.getElementById('length').innerHTML = sentence.val.length;
+			document.getElementById('length').innerHTML = sentence.charactersLength();
+			document.getElementById('letters-length').innerHTML = sentence.lettersLength();
 			document.getElementById('words-length').innerHTML = sentence.wordsLength();
 			document.getElementById('dots-length').innerHTML = sentence.dotsLength();
 		}
