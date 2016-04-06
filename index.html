@@ -11,28 +11,58 @@
 			margin: 0 auto;
 			font-family: tahoma;
 			font-size: .9em;
-			margin-bottom: 70px;
 		}
-		h2{
-			text-align: right;
+		*:focus{
+			outline: none;
 		}
-		#textarea{
+		pre, code{
+			direction: ltr;
+
+		}
+		#textbox{
 			margin: 0;
 			width: 100%;
-			resize-x: none;
+			resize: none;
 			min-height: 100px;
 			font-size: 12px;
 			padding: 6px;
 		}
-		#textarea:focus{
-			outline: none;
+		.info{
+			display: inline-block;
+			width: 50%;
+			margin: 0;
 		}
-		.info > div{
+		.info > div, .info > span{
 			color: #C0392B;
 			font-size: 12px;
 			font-weight: bold;
 			padding: 15px;
 			min-height: 50px;
+		}
+		#info{
+			width: 100%;
+			colspan: 0;
+		}
+		#info tr td:first-child{
+			width: 20%;
+			padding: 5px;
+			background: #BDC3C7;
+		}
+		#info tr td:last-child{
+			padding: 5px;
+			background: #ECF0F1;
+			color: #C0392B;
+			font-weight: bold;
+		}
+		header{
+			display: block;
+			margin: 0;
+			padding: 15px 0;
+		}
+		header h2{
+			margin: 0;
+			text-align: center;
+			color: #34495E;
 		}
 		footer{
 			position: fixed;
@@ -42,52 +72,53 @@
 			padding: 10px;
 			background: rgba(255,255,255,.5);
 		}
+		body::after{
+			content: '';
+			display: block;
+			height: 50px;
+		}
 	</style>
 </head>
 <body dir="rtl">
-	<h2>اطلاعات جمله!</h2>
+	<header><h2>اطلاعات جمله!</h2></header>
 	<p>
 		متن فارسی خود را در کادر زیر وارد کنید و اطلاعات نگارشی آن را ببینید!
 	</p>
-	<p> امکانات فعلی: </p>
-	<ul>
-		<li> حروف غایب </li>
-		<li> حروف استفاده شده </li>
-		<li> تعداد کاراکترها </li>
-		<li> تعداد کلمه‌ها </li>
-		<li> تعداد حروف </li>
-		<li> تعداد نقطه‌ها </li>
-	</ul>
-	<br>
-	
-	<textarea id="textarea" placeholder="جمله خود را وارد کنید"></textarea>
-	<div class="info">حروف غایب:
-	<div id="missed-letters"></div>
-	</div>
-	<div class="info"> حروف غایب در صورت تفاوت ص و ـص و ـصـ و صـ
-	<div id="missed-letters-gliph"></div>
-	</div>
-	<div class="info"> حروف غایب در صورت برابری ـص و ص یا صـ و ـصـ
-	<div id="missed-letters-gliph2"></div>
-	</div>
-	
-	<div class="info">حروف استفاده شده:
-	<div id="used-letters"></div>
-	</div>
-	
-	<div class="info">تعداد کاراکترها:
-	<div id="length"></div>
-	</div>
-	
-	<div class="info">تعداد کلمه‌ها
-	<div id="words-length"></div>
-	</div>
-	<div class="info">تعداد حروف
-	<div id="letters-length"></div>
-	</div>
-	<div class="info">تعداد نقطه‌ها
-	<div id="dots-length"></div>
-	</div>
+	<textarea id="textbox" placeholder="جمله خود را وارد کنید"></textarea>
+	<table id="info">
+		<tr>
+			<td>تعداد کاراکترها</td>
+			<td id="length"></td>
+		</tr>
+		<tr>
+			<td>تعداد کلمه‌ها</td>
+			<td id="words-length"></td>
+		</tr>
+		<tr>
+			<td>تعداد حروف</td>
+			<td id="letters-length"></td>
+		</tr>
+		<tr>
+			<td>تعداد نقطه‌ها</td>
+			<td id="dots-length"></td>
+		</tr>
+		<tr>
+			<td>حروف استفاده شده</td>
+			<td id="used-letters"></td>
+		</tr>
+		<tr>
+			<td>حروف غایب</td>
+			<td id="missed-letters"></td>
+		</tr>
+		<tr>
+			<td>حروف غایب در صورت تفاوت ص و ـص و ـصـ و صـ</td>
+			<td id="missed-letters-gliph"></td>
+		</tr>
+		<tr>
+			<td>حروف غایب در صورت برابری ـص و ص یا صـ و ـصـ</td>
+			<td id="missed-letters-gliph2"></td>
+		</tr>
+	</table>
 
 	<footer>
 		ایجاد شده توسط امیر مومنیان: <a href="https://twitter.com/nainemom">توییتر</a>، <a href="https://github.com/nainemom/sentence-info">گیت‌هاب</a>، <a href="http://morde.ir">وبلاگ</a>
@@ -95,48 +126,20 @@
 	
 	<script src="sentence-info.js"></script>
 	<script>
-		var textarea = document.getElementById('textarea');
-		var missedLettersElem = document.getElementById('missed-letters');
-		var lengthElem = document.getElementById('length');
-
-		
-/*		var sentence = new Sentence(textarea.value);
-		textarea.onkeyup = function(){
-			sentence.val( textarea.value );
-			
-			lengthElem.innerHTML = sentence.len();
-			missedLettersElem.innerHTML = sentence.missedLetters(true);
-			
-			//var i,j;
-			//var sentence = textarea.value;
-			//var missed = missedLetters(textarea.value);
-			//missedLettersElem.innerHTML = '';
-			//for( i = 0; i < missed.length; i++ ){
-			//	missedLettersElem.innerHTML+= (missed[i].type == 'middle' || missed[i].type == 'end'? 'ـ': '') + missed[i].letter +  (missed[i].type == 'middle' || missed[i].type == 'start'? 'ـ': '') + ' ';
-			//}
-			
-			//lengthElem.innerHTML = sentence.length;
-			
-		};
-		textarea.onkeyup(); */
-		
-		var sentence = new NaiSentence();
-		
-		sentence.val = textarea.value;
-		textarea.onkeyup = function(){
-			sentence.val = textarea.value;
-			
-			document.getElementById('missed-letters').innerHTML = sentence.missedLetters().join(' ');
-			document.getElementById('missed-letters-gliph').innerHTML = sentence.missedLetters(true).join(' ');
-			document.getElementById('missed-letters-gliph2').innerHTML = sentence.missedLetters(true, true,true).join(' ');
-			document.getElementById('used-letters').innerHTML = sentence.usedLetters().join(' ');
-			document.getElementById('length').innerHTML = sentence.charactersLength();
-			document.getElementById('letters-length').innerHTML = sentence.lettersLength();
-			document.getElementById('words-length').innerHTML = sentence.wordsLength();
-			document.getElementById('dots-length').innerHTML = sentence.dotsLength();
+		var textbox = document.getElementById('textbox');
+		var sentence = new NaiSentence( textbox.value );
+		textbox.onkeyup = function(){
+			sentence.val = textbox.value;
+			document.getElementById('missed-letters').innerHTML 			= sentence.missedLetters().join(' ');
+			document.getElementById('missed-letters-gliph').innerHTML 		= sentence.missedLetters(true).join(' ');
+			document.getElementById('missed-letters-gliph2').innerHTML 		= sentence.missedLetters(true, true,true).join(' ');
+			document.getElementById('used-letters').innerHTML 				= sentence.usedLetters().join(' ');
+			document.getElementById('length').innerHTML 					= sentence.charactersLength();
+			document.getElementById('letters-length').innerHTML 			= sentence.lettersLength();
+			document.getElementById('words-length').innerHTML 				= sentence.wordsLength();
+			document.getElementById('dots-length').innerHTML 				= sentence.dotsLength();
 		}
-		textarea.onkeyup();
-
+		textbox.onkeyup();
 	</script>
 </body>
 </html>
