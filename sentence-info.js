@@ -150,6 +150,13 @@ function NaiSentence( val ){
 		}
 		return ret;
 	}
+	self.spacesLength = function(){
+		var ret = 0;
+		for( i = 0; i < self.val.length; i++ )
+			if ( self.val[i] == ' ' )
+				ret++;
+		return ret;
+	}
 }
 
 

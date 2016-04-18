@@ -103,6 +103,10 @@
 			<td id="dots-length"></td>
 		</tr>
 		<tr>
+			<td>تعداد فاصله‌ها</td>
+			<td id="spaces-length"></td>
+		</tr>
+		<tr>
 			<td>حروف استفاده شده</td>
 			<td id="used-letters"></td>
 		</tr>
@@ -111,7 +115,7 @@
 			<td id="missed-letters"></td>
 		</tr>
 		<tr>
-			<td>حروف غایب در صورت تفاوت ص و ـص و ـصـ و صـ</td>
+			<td>حروف غایب</td>
 			<td id="missed-letters-gliph"></td>
 		</tr>
 		<tr>
@@ -138,6 +142,7 @@
 			document.getElementById('letters-length').innerHTML 			= sentence.lettersLength();
 			document.getElementById('words-length').innerHTML 				= sentence.wordsLength();
 			document.getElementById('dots-length').innerHTML 				= sentence.dotsLength();
+			document.getElementById('spaces-length').innerHTML 				= sentence.spacesLength();
 		}
 		textbox.onkeyup();
 	</script>
