@@ -143,7 +143,7 @@ function NaiSentence( val ){
 			t = self.letterType(i);
 			if( '!؟.ضفغخجبنظزذ؛'.indexOf( self.val[i] ) != -1 )
 				ret+=1;
-			if( 'قت:'.indexOf( self.val[i] ) != -1 || (self.val[i] == 'ی' && 'next both'.indexOf(self.letterType(i)) != -1) )
+			if( 'قت:ي'.indexOf( self.val[i] ) != -1 || (self.val[i] == 'ی' && 'next both'.indexOf(self.letterType(i)) != -1) )
 				ret+=2;
 			if( 'ثچشژپ'.indexOf( self.val[i] ) != -1 )
 				ret+=3;
