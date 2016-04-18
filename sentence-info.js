@@ -23,9 +23,13 @@ function NaiSentence( val ){
 		{letter: "ش", connectToNext: true, connectToPrev: true},
 		{letter: "س", connectToNext: true, connectToPrev: true},
 		{letter: "ی", connectToNext: true, connectToPrev: true},
+		{letter: "ئ", connectToNext: true, connectToPrev: true},
+		{letter: "ي", connectToNext: true, connectToPrev: true},
 		{letter: "ب", connectToNext: true, connectToPrev: true},
 		{letter: "ل", connectToNext: true, connectToPrev: true},
 		{letter: "ا", connectToNext: false, connectToPrev: true},
+		{letter: "أ", connectToNext: false, connectToPrev: true},
+		{letter: "إ", connectToNext: false, connectToPrev: true},
 		{letter: "آ", connectToNext: false, connectToPrev: true},
 		{letter: "ت", connectToNext: true, connectToPrev: true},
 		{letter: "ن", connectToNext: true, connectToPrev: true},
@@ -41,6 +45,7 @@ function NaiSentence( val ){
 		{letter: "د", connectToNext: false, connectToPrev: true},
 		{letter: "پ", connectToNext: true, connectToPrev: true},
 		{letter: "و", connectToNext: false, connectToPrev: true},
+		{letter: "ؤ", connectToNext: false, connectToPrev: true},
 		{letter: "ء", connectToNext: false, connectToPrev: false},
 		{letter: "‌،.:؛؟!‌- ", connectToNext: false, connectToPrev: false}
 	];
@@ -107,7 +112,7 @@ function NaiSentence( val ){
 		var i;
 		var ret = 0;
 		var cpVal = self.val;
-		cpVal.split('?').join(' ')
+		cpVal = cpVal.split('؟').join(' ')
 			 .split('!').join(' ')
 		 	 .split('.').join(' ')
 		  	 .split(':').join(' ')
