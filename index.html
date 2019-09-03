@@ -3,54 +3,41 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Sentence Info - by @nainemom</title>
-	<link rel="stylesheet" href="https://bootswatch.com/lumen/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.2.0-rc2/css/bootstrap-rtl.min.css">
-	<link href="https://cdn.rawgit.com/rastikerdar/vazir-font/v2.0.0/dist/font-face.css" rel="stylesheet"/>
 	<style>
-		html, body{
-			font-family: 'Vazir';
+		html, body {
+			font-size: 14px;
+			padding: 0;
+			margin: 0;
 		}
-		.content{
-			background: #fff;
+
+		#percetange {
+			background: green;
+			position: absolute;
+			right: 0;
+			height: 10px;
 		}
 		#nai-letters{
-			word-break: break-all;
-			text-align: center;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
 		}
 		#nai-letters .letter{
-			display: inline-block;
-			width: 38px;
-			height: 38px;
-			margin: 4px;
+			width: 30px;
+			height: 30px;
+			margin: 2px;
 			text-align: center;
-			cursor: default;
+			background: #eee;
 		}
 		#nai-letters .letter.exist{
-
+			background: green;
+			color: #fff;
 			font-weight: bold;
 		}
-		#nai-ss{
-			vertical-align: middle;
-		}
-		footer.panel-footer{
-			padding: 0 15px;
-			line-height: 3;
-		}
+
 	</style>
 </head>
 <body dir="rtl">
-	<nav class="navbar navbar-default">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="http://nainemom.github.io/sentence-info/"><span class="glyphicon glyphicon-text-background logo"></span> اطلاعات جمله - Sentence Info</a>
-		</div>
-
-
-		<ul class="nav navbar-nav navbar-left">
-			<li><a href="https://github.com/nainemom/sentence-info"><span class="glyphicon glyphicon-link"></span> صفحه گیتهاب</a></li>
-		</ul>
-
-
-	</nav>
 	<div class="col-xs-12 content">
 		<div class="form-group">
 			<label class="control-label">متن:</label>
@@ -66,7 +53,7 @@
 		</div>
 		<hr>
 		<div class="progress progress-striped">
-			<div class="progress-bar progress-bar-success" id="percetange" style="width: 0%"></div>
+			<div id="percetange" style="width: 0%"></div>
 		</div>
 		<div class="form-group">
 			<label class="control-label"> جدول خروجی: </label>
@@ -163,7 +150,7 @@
 				span.classList.add('letter');
 				span.innerHTML = naiLetters[i].letter;
 				if( !naiLetters[i].missed ){
-					span.classList.add('btn-success');
+					span.classList.add('exist');
 				}
 				else{
 					span.classList.add('btn-default');
